@@ -1,17 +1,30 @@
 package url
 
 import (
-	"github.com/google/uuid"
+	"encoding/json"
 	"net/http"
 )
 
+type URLData struct {
+	URL string `json:"url"`
+}
+
+type ErrorData struct {
+	ERROR string `json:"error"`
+}
+
 func RedirectURLHandler(response http.ResponseWriter, request *http.Request) {
 	if request.Method == http.MethodGet {
-		url := request.URL.Path
+		fullURL := "http://localhost:8080" + request.URL.Path
+		urlData := URLData{
+			URL: fullURL,
+		}
+
+		jsonData, _ := json.Marshal(urlData)
 
 		response.WriteHeader(http.StatusTemporaryRedirect)
 		response.Header().Set("Location", request.URL.Path)
-		response.Write([]byte("http://localhost:8080" + url))
+		response.Write([]byte(jsonData))
 
 	} else {
 		response.WriteHeader(http.StatusBadRequest)
@@ -21,14 +34,23 @@ func RedirectURLHandler(response http.ResponseWriter, request *http.Request) {
 
 func ShortenURLHandler(response http.ResponseWriter, request *http.Request) {
 	if request.Method == http.MethodPost {
+		shortURL := "fgdggd"
+		fullURL := "http://localhost:8080/" + shortURL
+
+		urlData := URLData{
+			URL: fullURL,
+		}
+
+		jsonData, _ := json.Marshal(urlData)
+
 		//На будущие спринты
 		//body, _ := ioutil.ReadAll(request.Body)
 		//fmt.Print(body)
-		shortURL := uuid.New()
+		//shortURL := uuid.New()
 
 		response.WriteHeader(http.StatusCreated)
-		response.Header().Set("content-type", "text/plain")
-		response.Write([]byte("http://localhost:8080/" + shortURL.String()))
+		response.Header().Set("Content-type", "text/plain")
+		response.Write([]byte(jsonData))
 
 	} else {
 		response.WriteHeader(http.StatusBadRequest)
@@ -38,6 +60,12 @@ func ShortenURLHandler(response http.ResponseWriter, request *http.Request) {
 }
 
 func ErrorHandler(response http.ResponseWriter, request *http.Request) {
+	errorData := ErrorData{
+		ERROR: request.Method + " is incorrect method",
+	}
+
+	jsonData, _ := json.Marshal(errorData)
+
 	response.WriteHeader(http.StatusBadRequest)
-	response.Write([]byte("Incorrect method"))
+	response.Write([]byte(jsonData))
 }

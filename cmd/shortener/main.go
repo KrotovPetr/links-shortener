@@ -1,14 +1,18 @@
 package main
 
 import (
-	"github.com/KrotovPetr/links-shortener.git/internal/app/handlers"
+	"github.com/KrotovPetr/links-shortener.git/internal/app/url"
+	"github.com/go-chi/chi/v5"
 	"net/http"
 )
 
 func main() {
-	mux := http.NewServeMux()
-	mux.HandleFunc(`/`, handlers.RouterHandler)
-	err := http.ListenAndServe(`:8080`, mux)
+	router := chi.NewRouter()
+
+	router.Post(`/`, url.ShortenURLHandler)
+	router.Get(`/{id}`, url.RedirectURLHandler)
+
+	err := http.ListenAndServe(`:8080`, router)
 	if err != nil {
 		panic(err)
 	}

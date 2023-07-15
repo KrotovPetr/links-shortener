@@ -32,10 +32,8 @@ func TestShortenURLHandler(t *testing.T) {
 
 	recorder := httptest.NewRecorder()
 
-	// Вызов обработчика
 	ShortenURLHandler(recorder, req)
 
-	// Проверка ответа
 	if recorder.Code != http.StatusCreated {
 		t.Errorf("Expected status code %d, but got %d", http.StatusCreated, recorder.Code)
 	}

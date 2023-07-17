@@ -8,7 +8,7 @@ import (
 )
 
 func TestPositiveRedirectURLHandler(t *testing.T) {
-	storage.UrlMap = map[string]string{
+	storage.URLMap = map[string]string{
 		"abcd1234": "https://example.com",
 	}
 
@@ -35,7 +35,7 @@ func TestPositiveRedirectURLHandler(t *testing.T) {
 }
 
 func TestNegativeHandleGetRequestInvalidURL(t *testing.T) {
-	storage.UrlMap = map[string]string{
+	storage.URLMap = map[string]string{
 		"abcd1234": "https://example.com",
 	}
 	req, err := http.NewRequest("POST", "/test2", nil)

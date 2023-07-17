@@ -19,7 +19,7 @@ func ShortenURLHandler(responseWriter http.ResponseWriter, request *http.Request
 
 		originalURL := string(body)
 		shortURL := uuid.New().String()
-		storage.UrlMap[shortURL] = originalURL
+		storage.URLMap[shortURL] = originalURL
 
 		fullURL := fmt.Sprintf("http://" + request.Host + "/" + shortURL)
 

@@ -9,7 +9,7 @@ import (
 func RedirectURLHandler(responseWriter http.ResponseWriter, request *http.Request) {
 	if request.Method == http.MethodGet {
 		id := strings.TrimPrefix(request.URL.Path, "/")
-		originalURL, isExist := storage.UrlMap[id]
+		originalURL, isExist := storage.URLMap[id]
 
 		if isExist {
 			responseWriter.Header().Set("Content-Type", "text/plain")

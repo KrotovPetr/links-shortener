@@ -7,21 +7,14 @@ import (
 )
 
 func RedirectURLHandler(responseWriter http.ResponseWriter, request *http.Request) {
-	if request.Method == http.MethodGet {
-		id := strings.TrimPrefix(request.URL.Path, "/")
-		originalURL, isExist := storage.URLMap[id]
+	id := strings.TrimPrefix(request.URL.Path, "/")
+	originalURL, isExist := storage.URLMap[id]
 
-		if isExist {
-			responseWriter.Header().Set("Content-Type", "text/plain")
-			responseWriter.Header().Set("Location", originalURL)
-			responseWriter.WriteHeader(http.StatusTemporaryRedirect)
-		} else {
-			http.Error(responseWriter, "Invalid URL", http.StatusBadRequest)
-		}
-
+	if isExist {
+		responseWriter.Header().Set("Content-Type", "text/plain")
+		responseWriter.Header().Set("Location", originalURL)
+		responseWriter.WriteHeader(http.StatusTemporaryRedirect)
 	} else {
-		responseWriter.WriteHeader(http.StatusBadRequest)
-		responseWriter.Write([]byte("Only get method type"))
+		http.Error(responseWriter, "Invalid URL", http.StatusBadRequest)
 	}
-
 }

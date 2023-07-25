@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/KrotovPetr/links-shortener.git/cmd/shortener/config"
 	"github.com/KrotovPetr/links-shortener.git/internal/app"
+	"log"
 )
 
 func main() {
@@ -12,7 +13,7 @@ func main() {
 	fmt.Println("Running server on", configVar.Address)
 
 	if err := app.Run(configVar.Address); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 }

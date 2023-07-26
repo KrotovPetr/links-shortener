@@ -1,6 +1,9 @@
 package utils
 
-import "math/rand"
+import (
+	"fmt"
+	"math/rand"
+)
 
 func ShortLinksCreator() (link string) {
 	letters := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
@@ -10,5 +13,6 @@ func ShortLinksCreator() (link string) {
 		s[i] = letters[rand.Intn(len(letters))]
 	}
 
+	fmt.Print(link)
 	return
 }
